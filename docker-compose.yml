@@ -1,0 +1,19 @@
+services:
+  ipsec-vpn-server:
+    image: hwdsl2/ipsec-vpn-server
+    container_name: ipsec-vpn-server
+    env_file:
+      - ./vpn.env
+    restart: unless-stopped
+    volumes:
+      - ./ikev2-vpn-data:/etc/ipsec.d
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "500:500/udp"
+      - "4500:4500/udp"
+    privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
